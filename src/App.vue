@@ -1,10 +1,53 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
+  <div class="wrapper">
+      <Navbar
+        :showButton="isLogin"
+        @handlesignout="handleSignOut"
+        @handlechangepassword="handleChangePassword"
+        @handlegotowallet="handleGoToWallet"
+      />
+      <router-view />
   </div>
-  <router-view />
+  <footer>
+    <Footer />
+  </footer>
 </template>
+
+<script lang="ts">
+import { computed, defineComponent } from "vue";
+import Navbar from "@/components/ui/Navbar.vue";
+import { useAuthFacade } from "./store/auth/AuthFacade";
+import router from "./router";
+import Footer from "@/components/ui/Footer.vue";
+
+export default defineComponent({
+  components: {
+    Navbar,
+    Footer
+  },
+  setup() {
+    const { getIsLoginFlag, signOut } = useAuthFacade();
+    const isLogin = computed(() => getIsLoginFlag());
+
+    const handleSignOut = () => {
+      signOut();
+    };
+    const handleChangePassword = () => {
+      router.push("/main/change-password");
+    };
+    const handleGoToWallet = () => {
+      router.push("/main");
+    };
+
+    return {
+      isLogin,
+      handleSignOut,
+      handleChangePassword,
+      handleGoToWallet
+    };
+  }
+});
+</script>
 
 <style lang="scss">
 #app {
@@ -13,18 +56,14 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  display: flex;
+  flex-direction: column;
 }
 
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+.wrapper {
+  min-height: calc(100vh - 40px);
+}
+footer {
+  flex-shrink: 0;
 }
 </style>
