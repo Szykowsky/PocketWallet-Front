@@ -1,3 +1,4 @@
+import { useAuthMenager } from '@/api/auth';
 import { ChangePasswordModel } from '@/models/ChangePasswordModel';
 import { LoginModel } from '@/models/LoginModel';
 import { RegisterModel } from '@/models/RegisterModel';
@@ -13,19 +14,13 @@ export enum AuthActionType {
     CHANGE_PASSWORD = "CHANGE_PASSWORD"
 }
 
+const { signIn, signUp, changePassword } = useAuthMenager();
+
 export const actions = {
     [AuthActionType.SIGN_IN]({ commit }: { commit: Function; }, payload: LoginModel) {
         commit(AuthMutationType.SIGN_IN);
-        fetch('https://localhost:44323/api/auth/signin', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(payload)
-        })
-            .then(response => response.json())
+        signIn(payload)
             .then((response: Status) => {
-                console.log({ response });
                 if (response.success) {
                     commit(AuthMutationType.SIGN_IN_SUCCESS);
                     localStorage.setItem("token", response.messege);
@@ -41,16 +36,8 @@ export const actions = {
     },
     [AuthActionType.SIGN_UP]({ commit }: { commit: Function; }, payload: RegisterModel) {
         commit(AuthMutationType.SIGN_UP);
-        fetch('https://localhost:44323/api/auth/signup', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(payload)
-        })
-            .then(response => response.json())
+        signUp(payload)
             .then((response: Status) => {
-                console.log({ response });
                 if (response.success) {
                     commit(AuthMutationType.SIGN_UP_SUCCESS, response.messege);
                     router.push('/');
@@ -66,15 +53,7 @@ export const actions = {
     [AuthActionType.CHANGE_PASSWORD]({ commit }: { commit: Function; }, payload: ChangePasswordModel) {
         commit(AuthMutationType.CHANGE_PASSWORD);
         const token = localStorage.getItem("token");
-        fetch('https://localhost:44323/api/auth/password', {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify(payload)
-        })
-            .then(response => response.json())
+        changePassword(payload, String(token))
             .then((response: Status) => {
                 if (response.success) {
                     commit(AuthMutationType.CHANGE_PASSWORD_SUCCESS, response.messege);

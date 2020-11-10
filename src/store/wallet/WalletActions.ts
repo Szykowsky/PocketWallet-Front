@@ -1,3 +1,4 @@
+import { useWalletMenager } from '@/api/wallet';
 import { AddPasswordModel } from '@/models/AddPasswordModel';
 import { PasswordWalletModel } from '@/models/PasswordWalletModel';
 import { Status } from '@/models/Status';
@@ -12,21 +13,14 @@ export enum WalletActionType {
     HIDE_PASSWORD = "HIDE_PASSWORD"
 }
 
+const { addPassword, fetchWallet, getPasswordById } = useWalletMenager();
+
 export const actions = {
     [WalletActionType.ADD_PASSWORD]({ commit }: { commit: Function; }, payload: AddPasswordModel) {
         const token = localStorage.getItem("token");
         commit(WalletMutationType.ADD_PASSWORD);
-        fetch('https://localhost:44323/api/wallet', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify(payload)
-        })
-            .then(response => response.json())
+        addPassword(payload, String(token))
             .then((response: Status) => {
-                console.log({ response });
                 if (response.success) {
                     commit(WalletMutationType.ADD_PASSWORD_SUCCESS, response.messege);
                     router.push('/main');
@@ -45,14 +39,7 @@ export const actions = {
     [WalletActionType.FETCH_PASSWORD_WALLET]({ commit }: { commit: Function; }) {
         const token = localStorage.getItem("token");
         commit(WalletMutationType.ADD_PASSWORD);
-        fetch('https://localhost:44323/api/wallet', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-        })
-            .then(response => response.json())
+        fetchWallet(String(token))
             .then((response: PasswordWalletModel[]) => {
                 commit(WalletMutationType.FETCH_WALLET_PASSWORD_SUCCESS, response);
             })
@@ -64,14 +51,7 @@ export const actions = {
     [WalletActionType.GET_ORIGINAL_PASSWORD]({ commit }: { commit: Function; }, id: string) {
         const token = localStorage.getItem("token");
         commit(WalletMutationType.SHOW_PASSWORD);
-        fetch(`https://localhost:44323/api/wallet/password/${id}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-        })
-            .then(response => response.json())
+        getPasswordById(id, String(token))
             .then((response: Status) => {
                 if (response.success) {
                     commit(WalletMutationType.SHOW_PASSWORD_SUCCESS, { id, password: response.messege });
