@@ -5,12 +5,22 @@
     <td>{{ data.webPage }}</td>
     <td>{{ data.description }}</td>
     <td v-if="!showPassword">
-      <button type="button" class="btn" @click="handleShowPassword">
+      <button
+        type="button"
+        class="btn"
+        v-tooltip:top="'Show password'"
+        @click="handleShowPassword"
+      >
         <i class="far fa-eye"></i>
       </button>
     </td>
     <td v-if="showPassword">
-      <button type="button" class="btn" @click="handleHidePassword">
+      <button
+        type="button"
+        class="btn"
+        v-tooltip:top="'Hide password'"
+        @click="handleHidePassword"
+      >
         <i class="far fa-eye-slash"></i>
       </button>
     </td>
