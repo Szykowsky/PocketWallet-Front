@@ -12,7 +12,10 @@ export enum WalletMutationType {
     SHOW_PASSWORD = 'SHOWPASSWORD',
     SHOW_PASSWORD_SUCCESS = 'SHOW_PASSWORD_SUCCESS',
     SHOW_PASSWORD_FAIL = 'SHOW_PASSWORD_FAIL',
-    HIDE_PASSWORD = "HIDE_PASSWORD"
+    HIDE_PASSWORD = "HIDE_PASSWORD",
+    DELETE_PASSWORD = 'DELETE_PASSWORD',
+    DELETE_PASSWORD_SUCCESS = 'DELETE_PASSWORD_SUCCESS',
+    DELETE_PASSWORD_FAIL = 'DELETE_PASSWORD_FAIL'
 }
 
 export const mutations = {
@@ -80,6 +83,23 @@ export const mutations = {
     [WalletMutationType.HIDE_PASSWORD](state: WalletState, payload: string) {
         const foundIndex = state.passwordWallet.findIndex(x => x.id == payload);
         state.passwordWallet[foundIndex].password = null;
+        return state;
+    },
+    [WalletMutationType.DELETE_PASSWORD](state: WalletState) {
+        return state;
+    },
+    [WalletMutationType.DELETE_PASSWORD_SUCCESS](state: WalletState, payload: { id: string, message: string; }) {
+        state.isError = false;
+        state.errorMessege = null;
+        state.succesMessege = payload.message;
+        const itemToRemove = state.passwordWallet.findIndex(x => x.id == payload.id);
+        state.passwordWallet.splice(itemToRemove, 1);
+        return state;
+    },
+    [WalletMutationType.DELETE_PASSWORD_FAIL](state: WalletState, payload: string) {
+        state.isError = true;
+        state.errorMessege = payload;
+        state.succesMessege = null;
         return state;
     },
 };

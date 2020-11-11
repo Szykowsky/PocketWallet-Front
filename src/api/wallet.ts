@@ -45,10 +45,25 @@ const getPasswordById = (id: string, token: string): Promise<Status> => {
     return response;
 };
 
+const deletePassword = (id: string, token: string): Promise<Status> => {
+    const response = fetch(`${process.env.VUE_APP_API_URL}/wallet/password/${id}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+    })
+        .then(response => response.json())
+        .then((response: Status) => response);
+
+    return response;
+};
+
 export const useWalletMenager = () => {
     return {
         addPassword,
         fetchWallet,
-        getPasswordById
+        getPasswordById,
+        deletePassword
     };
 };

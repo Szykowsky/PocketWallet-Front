@@ -10,6 +10,7 @@
         :data="password"
         @handleshowpassword="handleShowPassword"
         @handlehidepassword="handleHidePassword"
+        @handledeletepassword="handleDeletePassword"
       />
     </template>
   </Table>
@@ -26,10 +27,10 @@ export default defineComponent({
   components: {
     WalletTableHeaderRow,
     WalletTableRow,
-    Table
+    Table,
   },
   props: {
-    passwordWallet: Array
+    passwordWallet: Array,
   },
   setup(props, { emit }) {
     const handleShowPassword = (id: string) => {
@@ -39,8 +40,12 @@ export default defineComponent({
     const handleHidePassword = (id: string) => {
       emit("handlehidepassword", id);
     };
-    return { handleShowPassword, handleHidePassword };
-  }
+    
+    const handleDeletePassword = (id: string) => {
+      emit("handledeletepassword", id);
+    };
+    return { handleShowPassword, handleHidePassword, handleDeletePassword };
+  },
 });
 </script>
 

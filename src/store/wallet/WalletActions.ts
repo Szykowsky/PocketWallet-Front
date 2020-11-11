@@ -10,10 +10,11 @@ export enum WalletActionType {
     RESET_MESSAGES = "RESET_MESSAGES",
     FETCH_PASSWORD_WALLET = 'FETCH_PASSWORD_WALLET',
     GET_ORIGINAL_PASSWORD = 'GET_ORIGINAL_PASSWORD',
-    HIDE_PASSWORD = "HIDE_PASSWORD"
+    HIDE_PASSWORD = "HIDE_PASSWORD",
+    DELETE_PASSWORD = "DELETE_PASSWORD"
 }
 
-const { addPassword, fetchWallet, getPasswordById } = useWalletMenager();
+const { addPassword, fetchWallet, getPasswordById, deletePassword } = useWalletMenager();
 
 export const actions = {
     [WalletActionType.ADD_PASSWORD]({ commit }: { commit: Function; }, payload: AddPasswordModel) {
@@ -66,5 +67,21 @@ export const actions = {
     },
     [WalletActionType.HIDE_PASSWORD]({ commit }: { commit: Function; }, id: string) {
         commit(WalletMutationType.HIDE_PASSWORD, id);
+    },
+    [WalletActionType.DELETE_PASSWORD]({ commit }: { commit: Function; }, id: string) {
+        const token = localStorage.getItem("token");
+        commit(WalletMutationType.DELETE_PASSWORD);
+        deletePassword(id, String(token))
+            .then((response: Status) => {
+                if (response.success) {
+                    commit(WalletMutationType.DELETE_PASSWORD_SUCCESS, { id, message: response.messege });
+                } else {
+                    commit(WalletMutationType.DELETE_PASSWORD_FAIL, response.messege);
+                }
+            })
+            .catch(err => {
+                console.log(err.message, 'err');
+                commit(WalletMutationType.DELETE_PASSWORD_FAIL, "Something went wrong, try again later");
+            });
     },
 };

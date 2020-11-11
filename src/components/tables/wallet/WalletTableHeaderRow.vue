@@ -4,7 +4,7 @@
     <th scope="col">Password</th>
     <th scope="col">Description</th>
     <th scope="col">Web Page</th>
-    <th scope="col">Show Password</th>
+    <th scope="col">Actions</th>
   </tr>
 </template>
 

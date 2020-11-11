@@ -19,6 +19,7 @@
           :passwordWallet="passwordWallet"
           @handleshowpassword="handleShowPassword"
           @handlehidepassword="handleHidePassword"
+          @handledeletepassword="handleDeletePassword"
         />
         <h3 v-if="passwordWallet.length === 0">No passwords found</h3>
       </div>
@@ -61,7 +62,8 @@ export default defineComponent({
       hidePassword,
       resetMessages,
       getIsLoadingFlag,
-      getSuccesMessage
+      getSuccesMessage,
+      deletePassword
     } = useWalletFacade();
     onMounted(() => {
       fetchPasswordWallet();
@@ -83,6 +85,11 @@ export default defineComponent({
       hidePassword(id);
     };
 
+    const handleDeletePassword = (id: string) => {
+        deletePassword(id);
+        console.log(id);
+    }
+
     const alertType = AlertType;
 
     onUnmounted(() => resetMessages());
@@ -91,6 +98,7 @@ export default defineComponent({
       passwordWallet,
       handleShowPassword,
       handleHidePassword,
+      handleDeletePassword,
       isLoading,
       successMessage,
       alertType

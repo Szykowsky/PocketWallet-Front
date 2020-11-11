@@ -21,6 +21,9 @@ export const useWalletFacade = () => {
         hidePassword(id: string) {
             dispatch(WalletActionType.HIDE_PASSWORD, id);
         },
+        deletePassword(id: string) {
+            dispatch(WalletActionType.DELETE_PASSWORD, id);
+        },
         getErrorMessage(): string | null {
             return store.getters.getWalletErrorMessage;
         },

@@ -4,8 +4,9 @@
     <td>{{ isPasswordExist(data.password) }}</td>
     <td>{{ data.webPage }}</td>
     <td>{{ data.description }}</td>
-    <td v-if="!showPassword">
+    <td>
       <button
+        v-if="!showPassword"
         type="button"
         class="btn"
         v-tooltip:top="'Show password'"
@@ -13,15 +14,23 @@
       >
         <i class="far fa-eye"></i>
       </button>
-    </td>
-    <td v-if="showPassword">
+
       <button
+        v-if="showPassword"
         type="button"
         class="btn"
         v-tooltip:top="'Hide password'"
         @click="handleHidePassword"
       >
         <i class="far fa-eye-slash"></i>
+      </button>
+      <button
+        type="button"
+        class="btn"
+        v-tooltip:top="'Delete password'"
+        @click="handleDeletePassword"
+      >
+        <i class="far fa-trash-alt"></i>
       </button>
     </td>
   </tr>
@@ -35,7 +44,7 @@ export default defineComponent({
   name: "WalletTableRow",
   props: {
     data: Object,
-    isLoading: Boolean
+    isLoading: Boolean,
   },
   setup(props, { emit }) {
     const showPassword = ref(false);
@@ -52,13 +61,18 @@ export default defineComponent({
       emit("handlehidepassword", props.data?.id);
       showPassword.value = false;
     };
+
+    const handleDeletePassword = () => {
+      emit("handledeletepassword", props.data?.id);
+    };
     return {
       isPasswordExist,
       showPassword,
       handleShowPassword,
-      handleHidePassword
+      handleHidePassword,
+      handleDeletePassword,
     };
-  }
+  },
 });
 </script>
 <style lang="scss" scoped>
