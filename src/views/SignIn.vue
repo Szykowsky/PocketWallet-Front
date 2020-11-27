@@ -12,9 +12,16 @@
       :isLoading="showSpinner"
       class="form"
     />
-    <router-link to="/signup">
-      Don't have an account yet? Sign up!
-    </router-link>
+    <div>
+      <router-link to="/signup">
+        Don't have an account yet? Sign up!
+      </router-link>
+    </div>
+    <div>
+      <router-link to="/unban">
+        If account is banned, click there to unban.
+      </router-link>
+    </div>
   </div>
 </template>
 
@@ -30,7 +37,7 @@ export default defineComponent({
   name: "SignIn",
   components: {
     SignInForm,
-    Alert
+    Alert,
   },
   setup() {
     const {
@@ -38,7 +45,7 @@ export default defineComponent({
       getErrorMessage,
       getIsLoadingFlag,
       getSuccesMessage,
-      resetMessages
+      resetMessages,
     } = useAuthFacade();
 
     const handleSignIn = (value: LoginModel) => {
@@ -58,9 +65,9 @@ export default defineComponent({
       error,
       showSpinner,
       successMessage,
-      alertType
+      alertType,
     };
-  }
+  },
 });
 </script>
 <style scoped>

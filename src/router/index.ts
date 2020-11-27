@@ -19,6 +19,11 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import("../views/SignUp.vue")
     },
     {
+        path: "/unban",
+        name: "Unban",
+        component: () => import("../views/UnbanIpAddress.vue")
+    },
+    {
         path: "/main",
         name: "Main",
         redirect: "/main/wallet",

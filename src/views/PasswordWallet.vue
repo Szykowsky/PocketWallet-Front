@@ -12,6 +12,11 @@
           :title="'Add password'"
           @handleclick="handleGoToAddPassword"
         />
+        <UserInfo
+            :user="userInfo?.userLogin"
+            :successFulSignIn="userInfo?.successFulSignIn"
+            :unSuccessFulSignIn="userInfo?.unSuccessFulSignIn"
+        />
       </div>
       <div class="wallet-content-container" v-if="!isLoading">
         <WalletTable
@@ -38,13 +43,15 @@ import {
   defineComponent,
   onMounted,
   onUnmounted,
-  watchEffect
+  watchEffect,
 } from "vue";
 import WalletTable from "@/components/tables/wallet/WalletTable.vue";
 import PrimaryBytton from "@/components/buttons/PrimaryButton.vue";
 import Spinner from "@/components/ui/Spinner.vue";
 import Alert from "@/components/ui/Alert.vue";
+import UserInfo from "@/components/ui/UserInfo.vue";
 import { AlertType } from "@/models/AlertType";
+import { useAuthFacade } from "@/store/auth/AuthFacade";
 
 export default defineComponent({
   name: "PasswordWallet",
@@ -52,7 +59,8 @@ export default defineComponent({
     WalletTable,
     PrimaryBytton,
     Spinner,
-    Alert
+    Alert,
+    UserInfo
   },
   setup() {
     const {
@@ -63,15 +71,20 @@ export default defineComponent({
       resetMessages,
       getIsLoadingFlag,
       getSuccesMessage,
-      deletePassword
+      deletePassword,
     } = useWalletFacade();
+
+    const { getUserInfo, fetchUserInfo } = useAuthFacade();
+
     onMounted(() => {
       fetchPasswordWallet();
+      fetchUserInfo();
     });
 
     const passwordWallet = computed(() => getPasswordWallet());
     const isLoading = computed(() => getIsLoadingFlag());
     const successMessage = computed(() => getSuccesMessage());
+    const userInfo = computed(() => getUserInfo());
 
     const handleGoToAddPassword = () => {
       router.push("/main/add-password");
@@ -86,9 +99,9 @@ export default defineComponent({
     };
 
     const handleDeletePassword = (id: string) => {
-        deletePassword(id);
-        console.log(id);
-    }
+      deletePassword(id);
+      console.log(id);
+    };
 
     const alertType = AlertType;
 
@@ -101,9 +114,10 @@ export default defineComponent({
       handleDeletePassword,
       isLoading,
       successMessage,
-      alertType
+      alertType,
+      userInfo
     };
-  }
+  },
 });
 </script>
 
@@ -119,8 +133,10 @@ export default defineComponent({
 }
 .wallet-button-container {
   display: flex;
+  justify-content: space-between;
 }
 .add-button {
   max-width: 250px;
+  max-height: 60px;
 }
 </style>

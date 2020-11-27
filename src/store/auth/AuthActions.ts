@@ -1,4 +1,5 @@
 import { useAuthMenager } from '@/api/auth';
+import { Authinfo } from '@/models/AuthInfo';
 import { ChangePasswordModel } from '@/models/ChangePasswordModel';
 import { LoginModel } from '@/models/LoginModel';
 import { RegisterModel } from '@/models/RegisterModel';
@@ -11,10 +12,12 @@ export enum AuthActionType {
     SIGN_UP = 'SIGN_UP',
     RESET_MESSAGES = "RESET_MESSAGES",
     SIGN_OUT = 'SIGN_OUT',
-    CHANGE_PASSWORD = "CHANGE_PASSWORD"
+    CHANGE_PASSWORD = "CHANGE_PASSWORD",
+    FETCH_USER_INFO = 'FETCH_USER_INFO',
+    UNBAN_IP_ADDRESS = 'UNBAN_IP_ADDRESS'
 }
 
-const { signIn, signUp, changePassword } = useAuthMenager();
+const { signIn, signUp, changePassword, fetchUserInfo, unbanIpAddress } = useAuthMenager();
 
 export const actions = {
     [AuthActionType.SIGN_IN]({ commit }: { commit: Function; }, payload: LoginModel) {
@@ -63,7 +66,7 @@ export const actions = {
             })
             .catch(err => {
                 console.log(err.message, 'err');
-                commit(AuthMutationType.SIGN_IN_FAIL, "Something went wrong, try agin later");
+                commit(AuthMutationType.CHANGE_PASSWORD_FAIL, "Something went wrong, try agin later");
             });
     },
     [AuthActionType.RESET_MESSAGES]({ commit }: { commit: Function; }) {
@@ -73,5 +76,34 @@ export const actions = {
         commit(AuthMutationType.SING_OUT);
         localStorage.removeItem("token");
         router.push("/");
-    }
+    },
+    [AuthActionType.FETCH_USER_INFO]({ commit }: { commit: Function; }) {
+        commit(AuthMutationType.GET_AUTH_INFO);
+        const token = localStorage.getItem("token");
+        fetchUserInfo(String(token))
+            .then((response: Authinfo) => {
+                commit(AuthMutationType.GET_AUTH_INFO_SUCCESS, response);
+            })
+            .catch(err => {
+                console.log(err.message, 'err');
+                commit(AuthMutationType.GET_AUTH_INFO_FAIL, "Something went wrong, try agin later");
+            });
+    },
+    [AuthActionType.UNBAN_IP_ADDRESS]({ commit }: { commit: Function; }) {
+        commit(AuthMutationType.UNBAN_IP_ADDRESS);
+        const token = localStorage.getItem("token");
+        unbanIpAddress(String(token))
+            .then((response: Status) => {
+                if (response.success) {
+                    router.push('/');
+                    commit(AuthMutationType.UNBAN_IP_ADDRESS_SUCCESS, response.messege);
+                } else {
+                    commit(AuthMutationType.UNBAN_IP_ADDRESS_FAIL, response.messege);
+                }
+            })
+            .catch(err => {
+                console.log(err.message, 'err');
+                commit(AuthMutationType.UNBAN_IP_ADDRESS_FAIL, "Something went wrong, try agin later");
+            });
+    },
 };

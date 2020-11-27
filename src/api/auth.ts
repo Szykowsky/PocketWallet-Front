@@ -1,3 +1,4 @@
+import { Authinfo } from '@/models/AuthInfo';
 import { ChangePasswordModel } from '@/models/ChangePasswordModel';
 import { LoginModel } from "@/models/LoginModel";
 import { RegisterModel } from '@/models/RegisterModel';
@@ -46,10 +47,39 @@ const changePassword = (changePasswordModel: ChangePasswordModel, token: string)
     return response;
 };
 
+const fetchUserInfo = (token: string): Promise<Authinfo> => {
+    const response = fetch(`${process.env.VUE_APP_API_URL}/auth/info`, {
+        method: 'Get',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+    })
+        .then(response => response.json())
+        .then((response: Authinfo) => response);
+
+    return response;
+};
+const unbanIpAddress = (token: string): Promise<Status> => {
+    const response = fetch(`${process.env.VUE_APP_API_URL}/auth/unban`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+    })
+        .then(response => response.json())
+        .then((response: Status) => response);
+
+    return response;
+};
+
 export const useAuthMenager = () => {
     return {
         signIn,
         signUp,
-        changePassword
+        changePassword,
+        fetchUserInfo,
+        unbanIpAddress
     };
 };

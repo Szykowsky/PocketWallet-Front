@@ -1,3 +1,4 @@
+import { Authinfo } from '@/models/AuthInfo';
 import { AuthState } from './AuthState';
 
 export enum AuthMutationType {
@@ -12,6 +13,12 @@ export enum AuthMutationType {
     CHANGE_PASSWORD = 'CHANGE_PASSWORD',
     CHANGE_PASSWORD_SUCCESS = 'CHANGE_PASSWORD_SUCCESS',
     CHANGE_PASSWORD_FAIL = 'CHANGE_PASSWORD_FAIL',
+    GET_AUTH_INFO = 'GET_AUTH_INFO',
+    GET_AUTH_INFO_SUCCESS = 'GET_AUTH_INFO_SUCCESS',
+    GET_AUTH_INFO_FAIL = 'GET_AUTH_INFO_FAIL',
+    UNBAN_IP_ADDRESS = 'UNBAN_IP_ADDRESS',
+    UNBAN_IP_ADDRESS_SUCCESS = 'UNBAN_IP_ADDRESS_SUCCESS',
+    UNBAN_IP_ADDRESS_FAIL = 'UNBAN_IP_ADDRESS_FAIL'
 }
 
 export const mutations = {
@@ -74,6 +81,35 @@ export const mutations = {
         return state;
     },
     [AuthMutationType.CHANGE_PASSWORD_FAIL](state: AuthState, payload: string) {
+        state.isLoading = false;
+        state.isError = true;
+        state.errorMessege = payload;
+        state.succesMessege = null;
+        return state;
+    },
+    [AuthMutationType.GET_AUTH_INFO_SUCCESS](state: AuthState, payload: Authinfo) {
+        state.authInfo = payload;
+        return state;
+    },
+    [AuthMutationType.CHANGE_PASSWORD_FAIL](state: AuthState, payload: string) {
+        state.isLoading = false;
+        state.isError = true;
+        state.errorMessege = payload;
+        state.succesMessege = null;
+        return state;
+    },
+    [AuthMutationType.UNBAN_IP_ADDRESS](state: AuthState) {
+        state.isLoading = true;
+        return state;
+    },
+    [AuthMutationType.UNBAN_IP_ADDRESS_SUCCESS](state: AuthState, payload: string) {
+        state.isLoading = false;
+        state.isError = false;
+        state.errorMessege = null;
+        state.succesMessege = payload;
+        return state;
+    },
+    [AuthMutationType.UNBAN_IP_ADDRESS_FAIL](state: AuthState, payload: string) {
         state.isLoading = false;
         state.isError = true;
         state.errorMessege = payload;

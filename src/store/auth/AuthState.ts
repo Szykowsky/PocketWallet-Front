@@ -1,4 +1,7 @@
+import { Authinfo } from '@/models/AuthInfo';
+
 export interface AuthState {
+    authInfo: Authinfo | null,
     isLogin: boolean,
     isLoading: boolean,
     isError: boolean;
@@ -7,6 +10,7 @@ export interface AuthState {
 }
 
 export const authInitialState: AuthState = {
+    authInfo: null,
     isLogin: false,
     isError: false,
     isLoading: false,

@@ -4,6 +4,7 @@ import { AuthActionType } from './AuthActions';
 import { LoginModel } from '@/models/LoginModel';
 import { RegisterModel } from '@/models/RegisterModel';
 import { ChangePasswordModel } from '@/models/ChangePasswordModel';
+import { Authinfo } from '@/models/AuthInfo';
 
 export const useAuthFacade = () => {
     return {
@@ -25,6 +26,12 @@ export const useAuthFacade = () => {
         resetMessages() {
             dispatch(AuthActionType.RESET_MESSAGES);
         },
+        fetchUserInfo() {
+            dispatch(AuthActionType.FETCH_USER_INFO);
+        },
+        unbanIpAddress() {
+            dispatch(AuthActionType.UNBAN_IP_ADDRESS);
+        },
         getErrorMessage(): string | null {
             return store.getters.getErrorMessage;
         },
@@ -33,6 +40,9 @@ export const useAuthFacade = () => {
         },
         getSuccesMessage(): string {
             return store.getters.getSuccesMessage;
+        },
+        getUserInfo(): Authinfo {
+            return store.getters.getUserInfo;
         }
     };
 };

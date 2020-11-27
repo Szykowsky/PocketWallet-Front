@@ -12,5 +12,8 @@ export const getters = {
     },
     getSuccesMessage(state: AuthState) {
         return state.succesMessege;
+    },
+    getUserInfo(state: AuthState) {
+        return state.authInfo;
     }
 };
