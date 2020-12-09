@@ -35,7 +35,6 @@
         <Spinner />
       </div>
     </div>
-    {{ isModalVisible }}
     <div>
       <Modal v-show="isModalVisible">
         <template v-slot:body>Are you sure to delete password?</template>

@@ -24,7 +24,7 @@
         type="button"
         @click="handleChangeApplicationMode"
       >
-        Change application mode
+        Change mode
       </button>
       <button
         v-if="showButton"
