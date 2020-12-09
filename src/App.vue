@@ -1,12 +1,13 @@
 <template>
   <div class="wrapper">
-      <Navbar
-        :showButton="isLogin"
-        @handlesignout="handleSignOut"
-        @handlechangepassword="handleChangePassword"
-        @handlegotowallet="handleGoToWallet"
-      />
-      <router-view />
+    <Navbar
+      :showButton="isLogin"
+      @handlesignout="handleSignOut"
+      @handlechangepassword="handleChangePassword"
+      @handlegotowallet="handleGoToWallet"
+      @handlechangeapplicationmode="handleChangeApplicationMode"
+    />
+    <router-view />
   </div>
   <footer>
     <Footer />
@@ -19,15 +20,19 @@ import Navbar from "@/components/ui/Navbar.vue";
 import { useAuthFacade } from "./store/auth/AuthFacade";
 import router from "./router";
 import Footer from "@/components/ui/Footer.vue";
+import { useWalletFacade } from "./store/wallet/WalletFacade";
 
 export default defineComponent({
   components: {
     Navbar,
-    Footer
+    Footer,
   },
   setup() {
     const { getIsLoginFlag, signOut } = useAuthFacade();
+    const { getReadMode, setReadMode } = useWalletFacade();
+
     const isLogin = computed(() => getIsLoginFlag());
+    const isReadMode = computed(() => getReadMode());
 
     const handleSignOut = () => {
       signOut();
@@ -38,14 +43,19 @@ export default defineComponent({
     const handleGoToWallet = () => {
       router.push("/main");
     };
+    const handleChangeApplicationMode = () => {
+      setReadMode(!isReadMode.value);
+      router.push("/main");
+    };
 
     return {
       isLogin,
       handleSignOut,
       handleChangePassword,
-      handleGoToWallet
+      handleGoToWallet,
+      handleChangeApplicationMode,
     };
-  }
+  },
 });
 </script>
 

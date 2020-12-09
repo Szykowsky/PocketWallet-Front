@@ -3,8 +3,8 @@
     <label :for="label">{{ label }}</label>
     <input
       v-model="input"
-      :type="type"
       class="form-control"
+      :type="type"
       :name="label"
       :id="label"
     />

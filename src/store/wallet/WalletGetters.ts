@@ -1,3 +1,4 @@
+import { PasswordWalletFlagModel } from '@/models/PasswordWalletFlagModel';
 import { PasswordWalletModel } from '@/models/PasswordWalletModel';
 import { WalletState } from './WalletState';
 
@@ -11,7 +12,13 @@ export const getters = {
     getWalletSuccesMessage(state: WalletState): string | null {
         return state.succesMessege;
     },
-    getPasswordWallet(state: WalletState): PasswordWalletModel[] {
+    getPasswordWallet(state: WalletState): PasswordWalletFlagModel[] {
         return state.passwordWallet;
+    },
+    getFullSecurityPassword(state: WalletState): PasswordWalletModel | null {
+        return state.passwordToEdit;
+    },
+    getReadMode(state: WalletState): boolean {
+        return state.isReadMode;
     }
 };

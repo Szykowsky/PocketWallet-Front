@@ -27,9 +27,24 @@ const bsTooltip = (el: any, binding: any) => {
         html: !!binding.modifiers.html,
     });
 };
+
+const bsTooltipUpdate = (el: any, binding: any) => {
+    const $el = ($(el) as any);
+    $el.attr('title', binding.value).tooltip('fixTitle');
+
+    const data = $el.data('bs.tooltip');
+    if (binding.modifiers.live) { // update live without flickering (but it doesn't reposition)
+        if (data.$tip) {
+            if (data.options.html) data.$tip.find('.tooltip-inner').html(binding.value);
+            else data.$tip.find('.tooltip-inner').text(binding.value);
+        }
+    } else {
+        if (data.inState.hover || data.inState.focus || data.inState.click) $el.tooltip('show');
+    }
+};
 app.directive('tooltip', {
     mounted: bsTooltip,
-    updated: bsTooltip,
+    updated: bsTooltipUpdate,
     unmounted(el: any) {
         ($(el) as any).tooltip('dispose');
     }

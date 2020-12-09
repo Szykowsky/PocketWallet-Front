@@ -1,2 +1,2 @@
-export const checkInput = (inputValue: string) =>
+export const checkInput = (inputValue: string | undefined) =>
     inputValue !== undefined && inputValue !== null && inputValue !== "";

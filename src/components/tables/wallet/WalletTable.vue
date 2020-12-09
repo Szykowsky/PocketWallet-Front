@@ -8,9 +8,12 @@
         v-for="password in passwordWallet"
         :key="password.id"
         :data="password"
+        :isReadMode="isReadMode"
         @handleshowpassword="handleShowPassword"
         @handlehidepassword="handleHidePassword"
         @handledeletepassword="handleDeletePassword"
+        @handleeditpassword="handleEditPassword"
+        @handlesharepassword="handleSharePassword"
       />
     </template>
   </Table>
@@ -31,6 +34,7 @@ export default defineComponent({
   },
   props: {
     passwordWallet: Array,
+    isReadMode: Boolean
   },
   setup(props, { emit }) {
     const handleShowPassword = (id: string) => {
@@ -40,11 +44,25 @@ export default defineComponent({
     const handleHidePassword = (id: string) => {
       emit("handlehidepassword", id);
     };
-    
+
     const handleDeletePassword = (id: string) => {
       emit("handledeletepassword", id);
     };
-    return { handleShowPassword, handleHidePassword, handleDeletePassword };
+
+    const handleEditPassword = (id: string) => {
+      emit("handleeditpassword", id);
+    };
+
+    const handleSharePassword = (id: string) => {
+      emit("handlesharepassword", id);
+    };
+    return {
+      handleShowPassword,
+      handleHidePassword,
+      handleDeletePassword,
+      handleEditPassword,
+      handleSharePassword,
+    };
   },
 });
 </script>

@@ -5,8 +5,8 @@
       :type="alertType.Success"
     /> -->
 
-  <AddPasswordForm
-    @handleaddpassword="handleAddPassword"
+  <AddOrEditPasswordForm
+    @handleaddoreditpassword="handleAddPassword"
     :isLoading="showSpinner"
     class="form"
   />
@@ -15,7 +15,7 @@
 <script lang="ts">
 import { computed, defineComponent, onUnmounted } from "vue";
 import { RegisterModel } from "@/models/RegisterModel";
-import AddPasswordForm from "@/components/forms/AddPasswordForm.vue";
+import AddOrEditPasswordForm from "@/components/forms/AddOrEditPasswordForm.vue";
 import { useAuthFacade } from "@/store/auth/AuthFacade";
 import Alert from "@/components/ui/Alert.vue";
 import { AlertType } from "@/models/AlertType";
@@ -25,7 +25,7 @@ import { useWalletFacade } from "@/store/wallet/WalletFacade";
 export default defineComponent({
   name: "AddPassword",
   components: {
-    AddPasswordForm
+    AddOrEditPasswordForm
     // Alert
   },
   setup() {

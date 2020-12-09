@@ -34,7 +34,7 @@ export const actions = {
             })
             .catch(err => {
                 console.log(err.message, 'err');
-                commit(AuthMutationType.SIGN_IN_FAIL, "Something went wrong, try agin later");
+                commit(AuthMutationType.SIGN_IN_FAIL, "Something went wrong, try again later");
             });
     },
     [AuthActionType.SIGN_UP]({ commit }: { commit: Function; }, payload: RegisterModel) {
@@ -50,7 +50,7 @@ export const actions = {
             })
             .catch(err => {
                 console.log(err.message, 'err');
-                commit(AuthMutationType.SIGN_UP_FAIL, "Something went wrong, try agin later");
+                commit(AuthMutationType.SIGN_UP_FAIL, "Something went wrong, try again later");
             });
     },
     [AuthActionType.CHANGE_PASSWORD]({ commit }: { commit: Function; }, payload: ChangePasswordModel) {
@@ -66,7 +66,7 @@ export const actions = {
             })
             .catch(err => {
                 console.log(err.message, 'err');
-                commit(AuthMutationType.CHANGE_PASSWORD_FAIL, "Something went wrong, try agin later");
+                commit(AuthMutationType.CHANGE_PASSWORD_FAIL, "Something went wrong, try again later");
             });
     },
     [AuthActionType.RESET_MESSAGES]({ commit }: { commit: Function; }) {
@@ -86,7 +86,7 @@ export const actions = {
             })
             .catch(err => {
                 console.log(err.message, 'err');
-                commit(AuthMutationType.GET_AUTH_INFO_FAIL, "Something went wrong, try agin later");
+                commit(AuthMutationType.GET_AUTH_INFO_FAIL, "Something went wrong, try again later");
             });
     },
     [AuthActionType.UNBAN_IP_ADDRESS]({ commit }: { commit: Function; }) {
@@ -103,7 +103,7 @@ export const actions = {
             })
             .catch(err => {
                 console.log(err.message, 'err');
-                commit(AuthMutationType.UNBAN_IP_ADDRESS_FAIL, "Something went wrong, try agin later");
+                commit(AuthMutationType.UNBAN_IP_ADDRESS_FAIL, "Something went wrong, try again later");
             });
     },
 };

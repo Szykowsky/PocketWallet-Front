@@ -1,8 +1,6 @@
 <template>
   <nav class="navbar navbar-dark bg-secondary">
-    <router-link to="/main" class="main">
-      Pocket Wallet
-    </router-link>
+    <router-link to="/main" class="main"> Pocket Wallet </router-link>
     <div class="btn-group" role="group" aria-label="Basic example">
       <button
         v-if="showButton && !reactiveValue.isChangePasswordRoute"
@@ -24,6 +22,14 @@
         v-if="showButton"
         class="btn btn-secondary"
         type="button"
+        @click="handleChangeApplicationMode"
+      >
+        Change application mode
+      </button>
+      <button
+        v-if="showButton"
+        class="btn btn-secondary"
+        type="button"
         @click="handleSignOut"
       >
         Sign out
@@ -40,7 +46,7 @@ import { RouteLocationNormalizedLoaded } from "vue-router";
 export default defineComponent({
   name: "Navbar",
   props: {
-    showButton: Boolean
+    showButton: Boolean,
   },
   setup(props, { emit }) {
     const handleSignOut = () => {
@@ -53,8 +59,12 @@ export default defineComponent({
       emit("handlegotowallet");
     };
 
+    const handleChangeApplicationMode = () => {
+      emit("handlechangeapplicationmode");
+    };
+
     const reactiveValue = reactive({
-      isChangePasswordRoute: false
+      isChangePasswordRoute: false,
     });
 
     const watchChangePasswordRoute = (
@@ -69,18 +79,19 @@ export default defineComponent({
       handleSignOut,
       handleChangePassword,
       reactiveValue,
-      handleGoToWallet
+      handleGoToWallet,
+      handleChangeApplicationMode
     };
-  }
+  },
 });
 </script>
 <style scoped>
 .main {
-    text-decoration: none;
-    color: white;
-    font-size: 20px;
+  text-decoration: none;
+  color: white;
+  font-size: 20px;
 }
 .navbar {
-    height: 60px;
+  height: 60px;
 }
 </style>

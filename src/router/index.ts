@@ -42,6 +42,22 @@ const routes: Array<RouteRecordRaw> = [
                 path: "add-password",
                 name: "AddPassword",
                 component: () => import("../views/AddPassword.vue")
+            },
+            {
+                path: "share-password/:id",
+                name: "SharePassword",
+                component: () => import("../views/SharePassword.vue"),
+                props: {
+                    id: String
+                }
+            },
+            {
+                path: "edit-password/:id",
+                name: "EditPassword",
+                component: () => import("../views/EditPassword.vue"),
+                props: {
+                    id: String
+                }
             }
         ],
         beforeEnter: (to: RouteLocationNormalized, from, next: Function) => {
