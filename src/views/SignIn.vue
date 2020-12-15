@@ -32,6 +32,7 @@ import { useAuthFacade } from "@/store/auth/AuthFacade";
 import { LoginModel } from "@/models/LoginModel";
 import Alert from "@/components/ui/Alert.vue";
 import { AlertType } from "@/models/AlertType";
+import { useWalletFacade } from "@/store/wallet/WalletFacade";
 
 export default defineComponent({
   name: "SignIn",
@@ -48,8 +49,13 @@ export default defineComponent({
       resetMessages,
     } = useAuthFacade();
 
+    const {
+        setReadMode
+    } = useWalletFacade();
+
     const handleSignIn = (value: LoginModel) => {
       signIn(value);
+      setReadMode(true);
     };
 
     const error = computed(() => getErrorMessage());

@@ -30,6 +30,14 @@
         v-if="showButton"
         class="btn btn-secondary"
         type="button"
+        @click="handleShowLogs"
+      >
+        Logs
+      </button>
+      <button
+        v-if="showButton"
+        class="btn btn-secondary"
+        type="button"
         @click="handleSignOut"
       >
         Sign out
@@ -67,6 +75,10 @@ export default defineComponent({
       isChangePasswordRoute: false,
     });
 
+    const handleShowLogs = () => {
+        emit("handleshowlogs");
+    }
+
     const watchChangePasswordRoute = (
       currentRoute: RouteLocationNormalizedLoaded
     ) => {
@@ -80,7 +92,8 @@ export default defineComponent({
       handleChangePassword,
       reactiveValue,
       handleGoToWallet,
-      handleChangeApplicationMode
+      handleChangeApplicationMode,
+      handleShowLogs
     };
   },
 });

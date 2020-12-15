@@ -6,6 +6,7 @@
       @handlechangepassword="handleChangePassword"
       @handlegotowallet="handleGoToWallet"
       @handlechangeapplicationmode="handleChangeApplicationMode"
+      @handleshowlogs="handleShowLogs"
     />
     <router-view />
   </div>
@@ -48,12 +49,17 @@ export default defineComponent({
       router.push("/main");
     };
 
+    const handleShowLogs = () => {
+      router.push("/main/logs");
+    };
+
     return {
       isLogin,
       handleSignOut,
       handleChangePassword,
       handleGoToWallet,
       handleChangeApplicationMode,
+      handleShowLogs,
     };
   },
 });
