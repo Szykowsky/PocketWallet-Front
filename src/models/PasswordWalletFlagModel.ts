@@ -4,4 +4,5 @@ export interface PasswordWalletFlagModel extends PasswordWalletModel {
     canEdit: boolean;
     canDelete: boolean;
     canShare: boolean;
+    canShowActions: boolean;
 }

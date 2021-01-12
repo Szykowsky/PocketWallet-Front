@@ -28,6 +28,7 @@
           @handledeletepassword="openModal"
           @handleeditpassword="handleEditPassword"
           @handlesharepassword="handleSharePassword"
+          @handleshowactions="handleShowActions"
         />
         <h3 v-if="passwordWallet.length === 0">No passwords found</h3>
       </div>
@@ -146,6 +147,11 @@ export default defineComponent({
     const handleSharePassword = (id: string) => {
       router.push(`/main/share-password/${id}`);
     };
+
+    const handleShowActions = (id: string) => {
+      router.push(`/main/operations/${id}`);
+    };
+
     const alertType = AlertType;
 
     onUnmounted(() => resetMessages());
@@ -157,6 +163,7 @@ export default defineComponent({
       handleDeletePassword,
       handleEditPassword,
       handleSharePassword,
+      handleShowActions,
       isLoading,
       successMessage,
       alertType,

@@ -46,6 +46,9 @@ export default defineComponent({
     };
     const handleChangeApplicationMode = () => {
       setReadMode(!isReadMode.value);
+      if(router.currentRoute.value.name === "PasswordOperations") {
+          return;
+      }
       router.push("/main");
     };
 

@@ -61,6 +61,22 @@
       </Tooltip>
       <Tooltip
         :content="
+          !data.canDelete
+            ? 'You have to be an owner to show actions'
+            : 'Show past actions'
+        "
+      >
+        <button
+          type="button"
+          class="btn"
+          :disabled="!data.canShowActions"
+          @click="handleShowActions"
+        >
+          <i class="fas fa-receipt"></i>
+        </button>
+      </Tooltip>
+      <Tooltip
+        :content="
           isReadMode
             ? 'You are in read mode, change it to delete password'
             : !data.canDelete
@@ -123,6 +139,10 @@ export default defineComponent({
     const handleSharePassword = () => {
       emit("handlesharepassword", props.data?.id);
     };
+
+    const handleShowActions = () => {
+      emit("handleshowactions", props.data?.id);
+    };
     return {
       isPasswordExist,
       showPassword,
@@ -131,6 +151,7 @@ export default defineComponent({
       handleDeletePassword,
       handleEditPassword,
       handleSharePassword,
+      handleShowActions,
     };
   },
 });

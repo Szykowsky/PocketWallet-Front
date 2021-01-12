@@ -79,7 +79,10 @@ export default defineComponent({
       setSlectedFunction(name);
       fetchLogs(name);
     };
-    onUnmounted(() => resetMessages());
+    onUnmounted(() => {
+      resetMessages();
+      setSlectedFunction("All");
+    });
 
     return {
       logs,

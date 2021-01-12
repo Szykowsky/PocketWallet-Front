@@ -46,10 +46,12 @@ export default defineComponent({
       resetEditModel,
     } = useWalletFacade();
     const route = useRoute();
+
     onMounted(() => {
       const id = route.params.id;
       fetchFullSecurityPasswordWallet(String(id));
     });
+    
     const handleEditPassword = (value: PasswordWalletModel) => {
       editPassword(value);
     };

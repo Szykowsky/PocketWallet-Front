@@ -64,6 +64,11 @@ const routes: Array<RouteRecordRaw> = [
                 name: "Logs",
                 component: () => import("../views/Logs.vue")
             },
+            {
+                path: "operations/:id",
+                name: "PasswordOperations",
+                component: () => import("../views/PasswordOperations.vue")
+            },
         ],
         beforeEnter: (to: RouteLocationNormalized, from, next: Function) => {
             const { getIsLoginFlag } = useAuthFacade();

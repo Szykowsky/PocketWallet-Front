@@ -14,6 +14,7 @@
         @handledeletepassword="handleDeletePassword"
         @handleeditpassword="handleEditPassword"
         @handlesharepassword="handleSharePassword"
+        @handleshowactions="handleShowActions"
       />
     </template>
   </Table>
@@ -56,12 +57,17 @@ export default defineComponent({
     const handleSharePassword = (id: string) => {
       emit("handlesharepassword", id);
     };
+
+    const handleShowActions = (id: string) => {
+        emit("handleshowactions", id)
+    }
     return {
       handleShowPassword,
       handleHidePassword,
       handleDeletePassword,
       handleEditPassword,
       handleSharePassword,
+      handleShowActions
     };
   },
 });
