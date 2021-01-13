@@ -3,16 +3,15 @@
     <Spinner />
   </div>
   <div v-if="!isLoading">
-      <OperationTable
-        :operations="operations"
-        :isReadMode="isReadMode"
-      />
+    <OperationTable
+      :operations="operations"
+      :isReadMode="isReadMode"
+      @handleshowpreviousvalue="handleShowPreviousValue"
+    />
   </div>
-  <!-- <Alert
-    v-if="successMessage"
-    :displayText="successMessage"
-    :type="alertType.Success"
-  /> -->
+  <div v-if="isModalVisible">
+        <VueJsonPretty :data="preValue" />
+  </div>
 </template>
 
 <script lang="ts">
@@ -29,6 +28,8 @@ import {
 import Spinner from "@/components/ui/Spinner.vue";
 import Alert from "@/components/ui/Alert.vue";
 import OperationTable from "@/components/tables/operations/OperationsTable.vue";
+import VueJsonPretty from "vue-json-pretty";
+import 'vue-json-pretty/lib/styles.css';
 import { AlertType } from "@/models/AlertType";
 import { usePasswordOperationFacade } from "@/store/operations/PasswordOperationsFacade";
 import { useRoute } from "vue-router";
@@ -38,7 +39,8 @@ export default defineComponent({
   components: {
     //Alert,
     Spinner,
-    OperationTable
+    OperationTable,
+    VueJsonPretty,
   },
   setup() {
     const {
@@ -49,11 +51,12 @@ export default defineComponent({
       getPasswordOperations,
     } = usePasswordOperationFacade();
 
-    const {
-      getReadMode,
-    } = useWalletFacade();
+    const { getReadMode } = useWalletFacade();
 
     const route = useRoute();
+
+    const isModalVisible = ref(false);
+    const preValue = ref();
 
     onMounted(() => {
       const id = route.params.id;
@@ -65,6 +68,14 @@ export default defineComponent({
     const successMessage = computed(() => getSuccesMessage());
     const isReadMode = computed(() => getReadMode());
 
+    const handleShowPreviousValue = (id: string) => {
+      const op = operations.value.find((x) => x.id === id);
+      preValue.value = JSON.parse(op?.currentValue || "");
+      isModalVisible.value = true;
+
+      console.log({ op, val: preValue.value });
+    };
+
     onUnmounted(() => {
       resetMessages();
     });
@@ -73,7 +84,10 @@ export default defineComponent({
       operations,
       isLoading,
       successMessage,
-      isReadMode
+      isReadMode,
+      isModalVisible,
+      preValue,
+      handleShowPreviousValue,
     };
   },
 });

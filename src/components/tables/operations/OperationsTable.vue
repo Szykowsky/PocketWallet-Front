@@ -12,6 +12,7 @@
         :time="operation.updatedAt"
         :value="operation.currentValue"
         :isReadMode="isReadMode"
+        @handleshowpreviousvalue="handleShowPreviousValue"
       />
     </template>
   </Table>
@@ -33,6 +34,12 @@ export default defineComponent({
   props: {
     operations: Array,
     isReadMode: Boolean,
+  },
+  setup(props, { emit }) {
+    const handleShowPreviousValue = (id: string) => {
+      emit("handleshowpreviousvalue", id);
+    };
+    return {handleShowPreviousValue};
   },
 });
 </script>
