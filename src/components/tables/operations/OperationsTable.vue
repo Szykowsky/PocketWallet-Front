@@ -13,6 +13,7 @@
         :value="operation.currentValue"
         :isReadMode="isReadMode"
         @handleshowpreviousvalue="handleShowPreviousValue"
+        @handlerecoverpassword="handleRecoverPassword"
       />
     </template>
   </Table>
@@ -39,7 +40,11 @@ export default defineComponent({
     const handleShowPreviousValue = (id: string) => {
       emit("handleshowpreviousvalue", id);
     };
-    return {handleShowPreviousValue};
+
+    const handleRecoverPassword = (id: string) => {
+        emit("handlerecoverpassword", id);
+    }
+    return {handleShowPreviousValue, handleRecoverPassword};
   },
 });
 </script>

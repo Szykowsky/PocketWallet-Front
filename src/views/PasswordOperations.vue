@@ -1,16 +1,26 @@
 <template>
+  <Alert
+    v-if="successMessage"
+    :displayText="successMessage"
+    :type="alertType.Success"
+  />
   <div v-if="isLoading">
     <Spinner />
   </div>
-  <div v-if="!isLoading">
-    <OperationTable
-      :operations="operations"
-      :isReadMode="isReadMode"
-      @handleshowpreviousvalue="handleShowPreviousValue"
-    />
-  </div>
-  <div v-if="isModalVisible">
-        <VueJsonPretty :data="preValue" />
+  <div class="operations-container">
+    <div v-if="!isLoading">
+      <OperationTable
+        v-if="operations.length > 0"
+        :operations="operations"
+        :isReadMode="isReadMode"
+        @handleshowpreviousvalue="handleShowPreviousValue"
+        @handlerecoverpassword="handleRecoverPassword"
+      />
+      <h3 v-if="operations.length === 0">No operations found</h3>
+    </div>
+    <div v-if="isModalVisible">
+      <VueJsonPretty :data="preValue" />
+    </div>
   </div>
 </template>
 
@@ -29,7 +39,7 @@ import Spinner from "@/components/ui/Spinner.vue";
 import Alert from "@/components/ui/Alert.vue";
 import OperationTable from "@/components/tables/operations/OperationsTable.vue";
 import VueJsonPretty from "vue-json-pretty";
-import 'vue-json-pretty/lib/styles.css';
+import "vue-json-pretty/lib/styles.css";
 import { AlertType } from "@/models/AlertType";
 import { usePasswordOperationFacade } from "@/store/operations/PasswordOperationsFacade";
 import { useRoute } from "vue-router";
@@ -37,7 +47,7 @@ import { useRoute } from "vue-router";
 export default defineComponent({
   name: "PasswordOperations",
   components: {
-    //Alert,
+    Alert,
     Spinner,
     OperationTable,
     VueJsonPretty,
@@ -45,6 +55,7 @@ export default defineComponent({
   setup() {
     const {
       fetchPasswordOperation,
+      restorePassword,
       resetMessages,
       getIsLoadingFlag,
       getSuccesMessage,
@@ -72,9 +83,13 @@ export default defineComponent({
       const op = operations.value.find((x) => x.id === id);
       preValue.value = JSON.parse(op?.currentValue || "");
       isModalVisible.value = true;
-
-      console.log({ op, val: preValue.value });
     };
+
+    const handleRecoverPassword = (id: string) => {
+      const paramId = route.params.id;
+      restorePassword(id, String(paramId));
+    };
+    const alertType = AlertType;
 
     onUnmounted(() => {
       resetMessages();
@@ -88,10 +103,21 @@ export default defineComponent({
       isModalVisible,
       preValue,
       handleShowPreviousValue,
+      handleRecoverPassword,
+      alertType
     };
   },
 });
 </script>
 
 <style lang="scss" scoped>
+.operations-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 60px;
+  margin-bottom: 50px;
+}
+.operations-content-container {
+  width: 1200px;
+}
 </style>

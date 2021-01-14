@@ -7,6 +7,11 @@
       :type="alertType.Success"
     />
 
+    <Alert
+      :displayText="'If you change master password you will lose possibility of rollback passwords!!!'"
+      :type="alertType.Error"
+    />
+
     <ChangePasswordForm
       @handlechangepassword="handleChangePassword"
       :isLoading="showSpinner"
@@ -28,7 +33,7 @@ export default defineComponent({
   name: "ChangePassword",
   components: {
     ChangePasswordForm,
-    Alert
+    Alert,
   },
   setup() {
     const {
@@ -36,7 +41,7 @@ export default defineComponent({
       getIsLoadingFlag,
       changePassword,
       getSuccesMessage,
-      resetMessages
+      resetMessages,
     } = useAuthFacade();
 
     const handleChangePassword = (value: ChangePasswordModel) => {
@@ -54,9 +59,9 @@ export default defineComponent({
       error,
       showSpinner,
       alertType,
-      successMessage
+      successMessage,
     };
-  }
+  },
 });
 </script>
 

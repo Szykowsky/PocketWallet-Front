@@ -11,6 +11,9 @@ export const usePasswordOperationFacade = () => {
         fetchPasswordOperation(id: string) {
             dispatch(PasswordOperationsActionType.FETCH_OPERATIONS, id);
         },
+        restorePassword(id: string, passwordId: string) {
+            dispatch(PasswordOperationsActionType.RESTORE_PASSWORD, { id, passwordId });
+        },
         getIsLoadingFlag(): boolean {
             return store.getters.getPasswordOperationIsLoadingFlag;
         },
